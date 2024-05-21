@@ -9,23 +9,23 @@ response = session.get(url)
 if response.status_code == 200:
     soup = BeautifulSoup(response.content, "html.parser")
 
-    sale_occurrences = set()   # Store unique occurrences
+    sale_occurrences = set()   # store unique occurrences
 
-    # Keywords to search for
+    
     keywords = ["off"]
 
-    # Look for occurrences of keywords in <a> tags
+    # look for occurrences of keywords in <a> tags
     for link in soup.find_all("a"):
         for keyword in keywords:
             if keyword in link.text.lower():
                 sale_occurrences.add(link.text.strip())
 
-    # Look for "off" in <div> tags with specific classes
+    # look for "off" in <div> tags with specific classes
     for div in soup.find_all("div", class_=["sale", "discount"]):
         if "off" in div.text.lower():
             sale_occurrences.add(div.text.strip())
 
-    # Occurrences
+    
     if sale_occurrences:
         html_content = "<html><head><title>Occurrences</title></head><body>"
         html_content += "<h1>Offers for Macys</h1>"
